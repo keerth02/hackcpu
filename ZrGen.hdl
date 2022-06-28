@@ -1,0 +1,20 @@
+/**
+ * Chip to generate the zr bit in the Hack ALU
+ * zr=1 iff output of Hack ALU is 0
+ **/
+
+CHIP ZrGen {
+
+    IN x[16];
+    OUT out;
+    
+    PARTS:
+  
+    //out=1 only when x=0
+    Or4(a=x[0],b=x[1],c=x[2],d=x[3],out=t0);
+    Or4(a=x[4],b=x[5],c=x[6],d=x[7],out=t1);
+    Or4(a=x[8],b=x[9],c=x[10],d=x[11],out=t2);
+    Or4(a=x[12],b=x[13],c=x[14],d=x[15],out=t3);
+    Or4(a=t0,b=t1,c=t2,d=t3,out=t4);
+    Not(in=t4,out=out);    //out=(x[0] OR x[1] OR ... OR x[15])'
+}
